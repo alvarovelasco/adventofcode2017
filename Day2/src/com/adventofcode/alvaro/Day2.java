@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -23,11 +24,43 @@ public class Day2 {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		checksum = getSumEvenDivisible(list);		
+		System.out.println("Checksum " + checksum);
+	}
+
+	private static int getSumGreatesLowest(List<String> list) {
+		int checksum = 0;
 		for (String line : list) {
 			List<String> isolatedLine = Arrays.asList(line.split("\\t"));
 			checksum += (getGreatest(isolatedLine.stream()) - getLowest(isolatedLine.stream()));
-		}		
-		System.out.println("Checksum " + checksum);
+		}
+		return checksum;
+	}
+	
+	private static int getSumEvenDivisible(List<String> list) {
+		int checksum = 0;
+		for (String line : list) {
+			List<Integer> isolatedLine = Arrays.asList(line.split("\\t")).stream().
+					mapToInt(s -> Integer.valueOf(s)).boxed().collect(Collectors.toList());
+			
+			for (int count = 0; count < isolatedLine.size(); count++) {
+				int a = isolatedLine.get(count);
+				Optional<Integer> resolvedDivision = Optional.empty();
+				for (int count2 = count + 1;count2<isolatedLine.size();count2++) {
+					int b = isolatedLine.get(count2);
+					if ( (Math.max(a, b) % Math.min(a, b)) == 0) {
+						resolvedDivision =
+								Optional.of((Math.max(a, b) / Math.min(a, b)));
+						break;
+					}
+				}
+				
+				if (resolvedDivision.isPresent()) {
+					checksum += resolvedDivision.get();
+				}
+			}
+		}
+		return checksum;
 	}
 	
 	private static int getGreatest(Stream<String> stream) {
