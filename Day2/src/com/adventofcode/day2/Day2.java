@@ -1,4 +1,4 @@
-package com.adventofcode.alvaro;
+package com.adventofcode.day2;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,8 +24,10 @@ public class Day2 {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		checksum = getSumEvenDivisible(list);		
+		checksum = getSumGreatesLowest(list);
 		System.out.println("Checksum " + checksum);
+		checksum = getSumEvenDivisible(list);		
+		System.out.println("Checksum evenly division " + checksum);
 	}
 
 	private static int getSumGreatesLowest(List<String> list) {
