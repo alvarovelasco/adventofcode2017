@@ -44,7 +44,6 @@ public class Day3 {
                     if (num++ == goal) break;
                     x += current.getDx();
                     y += current.getDy();
-                    //num++;
                     int sum = sumOfNeighbors(x, y);
                     if (sum > goal) {
                         if (!firstHighest) {
